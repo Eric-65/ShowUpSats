@@ -82,9 +82,18 @@ export default async function Home() {
           ))}
         </ol>
         <div className="steps__photos">
-          <div className="photo"><img src="/img/veil-sm.webp" alt="Eyes above a dark scarf" loading="lazy" /></div>
-          <div className="photo"><img src="/img/eyes-sm.webp" alt="A child's eyes in deep shadow" loading="lazy" /></div>
-          <div className="photo"><img src="/img/laugh-sm.webp" alt="A woman laughing, side profile" loading="lazy" /></div>
+          <figure className="gal gal--lg" data-speed="-6">
+            <div className="photo"><img src="/img/veil.webp" srcSet="/img/veil-sm.webp 700w, /img/veil.webp 1400w" sizes="(min-width: 900px) 42vw, 100vw" alt="Eyes above a dark scarf" loading="lazy" /></div>
+            <figcaption className="mono">FIG. 01 · Waiting</figcaption>
+          </figure>
+          <figure className="gal gal--sm" data-speed="10">
+            <div className="photo"><img src="/img/eyes-sm.webp" alt="A child's eyes in deep shadow" loading="lazy" /></div>
+            <figcaption className="mono">FIG. 02 · Locked</figcaption>
+          </figure>
+          <figure className="gal gal--md" data-speed="-8">
+            <div className="photo"><img src="/img/laugh-sm.webp" alt="A woman laughing, side profile" loading="lazy" /></div>
+            <figcaption className="mono">FIG. 03 · Showed up</figcaption>
+          </figure>
         </div>
       </section>
 

@@ -50,9 +50,28 @@
 .steps__item { border-top: 1px solid var(--ink-3); padding-top: var(--space-3); }
 .steps__item p:last-child { color: var(--mute); font-size: 15px; }
 .steps__title { font-size: clamp(20px, 2.6vw, 34px); font-weight: 900; text-transform: uppercase; letter-spacing: -0.03em; line-height: .98; margin: 0 0 var(--space-2); }
-.steps__photos { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-2); margin-top: var(--space-6); }
-.steps__photos .photo { aspect-ratio: 3 / 4; }
-@media (min-width: 900px) { .steps__grid { grid-template-columns: repeat(4, 1fr); } .steps__photos { width: 60%; margin-left: auto; } }
+/* asymmetric editorial gallery: large / small / tall, staggered */
+.steps__photos { display: grid; grid-template-columns: repeat(6, 1fr); gap: var(--space-3); margin-top: var(--space-6); align-items: start; }
+.gal { margin: 0; will-change: transform; }
+.gal figcaption { margin-top: 10px; color: var(--mute); text-transform: uppercase; letter-spacing: .14em; font-size: 11px; display: flex; gap: 8px; align-items: center; }
+.gal figcaption::before { content: ""; width: 18px; height: 2px; background: var(--lime); }
+.gal .photo img { transition: transform 1.2s var(--ease), filter .6s; }
+.gal:hover .photo img { transform: scale(1.04); filter: grayscale(1) contrast(1.25); }
+.gal--lg { grid-column: 1 / -1; }
+.gal--lg .photo { aspect-ratio: 4 / 3; }
+.gal--sm { grid-column: 1 / span 3; }
+.gal--sm .photo { aspect-ratio: 1 / 1; }
+.gal--md { grid-column: 4 / span 3; margin-top: var(--space-6); }
+.gal--md .photo { aspect-ratio: 3 / 5; }
+.gal--md img { object-position: 85% center; }
+@media (min-width: 900px) {
+  .steps__grid { grid-template-columns: repeat(4, 1fr); }
+  .steps__photos { grid-template-columns: repeat(12, 1fr); gap: var(--space-4); margin-top: var(--space-7); }
+  .gal--lg { grid-column: 1 / span 6; }
+  .gal--lg .photo { aspect-ratio: 4 / 5; }
+  .gal--sm { grid-column: 7 / span 2; align-self: end; margin-bottom: var(--space-7); }
+  .gal--md { grid-column: 9 / span 4; margin-top: calc(var(--space-7) * 1.2); }
+}
 @media (max-width: 480px) { .steps__grid { grid-template-columns: 1fr; } }
 
 /* locked */

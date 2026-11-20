@@ -51,6 +51,10 @@ export function LandingClient() {
       gsap.utils.toArray<HTMLElement>(".steps__title").forEach((el, i) => {
         gsap.fromTo(el, { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 0.9, delay: i * 0.12, ease: "power2.out", scrollTrigger: { trigger: ".steps", start: "top 70%" } });
       });
+      // gallery parallax: each figure moves at its own speed
+      gsap.utils.toArray<HTMLElement>("[data-speed]").forEach((el) => {
+        gsap.fromTo(el, { yPercent: -Number(el.dataset.speed) }, { yPercent: Number(el.dataset.speed), ease: "none", scrollTrigger: { trigger: el, start: "top bottom", end: "bottom top", scrub: true } });
+      });
       // header becomes translucent once scrolled
       const hdr = document.querySelector(".site-header--landing");
       const onScroll = () => hdr?.classList.toggle("is-scrolled", window.scrollY > 40);
