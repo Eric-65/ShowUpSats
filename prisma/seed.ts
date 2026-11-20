@@ -84,7 +84,8 @@ async function main() {
     }
   }
   console.log(`Seeded provider /b/${p.slug}`);
-  console.log(`Dashboard login → link name: ${p.slug}  key: ${dashboardKey}`);
+  // never print a real key into (e.g. Vercel) build logs
+  console.log(`Dashboard login → link name: ${p.slug}  key: ${process.env.SEED_DASHBOARD_KEY ? "(the SEED_DASHBOARD_KEY value)" : dashboardKey}`);
   console.log(`Wallet connections: receive=${recv ? "set" : "NOT SET"} refund=${refund ? "set" : "NOT SET"}`);
 }
 main().finally(() => db.$disconnect());
