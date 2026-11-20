@@ -38,9 +38,9 @@ export default async function BookingPage({ params }: { params: Promise<{ slug: 
         <LangToggle lang={lang} label={d.langToggle} />
       </header>
       <main className="booking">
-        <section className="booking__hero section--dark">
+        <section className="booking__hero section--dark" style={{ ["--hero-img" as string]: "url(/img/laugh-sm.webp)" }}>
           <p className="label mono">// {provider.slug}</p>
-          <h1 className="booking__name display">{provider.displayName}</h1>
+          <h1 className="booking__name display reveal">{provider.displayName}</h1>
           <ShowUpRecord r={record} d={d} lang={lang} />
         </section>
         {!provider.nwcReceiveEnc && !DEMO_MODE ? (
