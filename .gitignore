@@ -1,0 +1,8 @@
+.env*
+!.env.example
+node_modules
+.next
+prisma/*.db*
+*.tsbuildinfo
+next-env.d.ts
+.vercel

@@ -1,0 +1,38 @@
+{
+  "name": "showupsats",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "prisma generate && next build",
+    "start": "next start",
+    "db:push": "prisma db push",
+    "seed": "tsx prisma/seed.ts",
+    "hold-test": "tsx scripts/hold-test.ts",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@getalby/lightning-tools": "^10.0.0",
+    "@getalby/sdk": "^9.0.0",
+    "@prisma/client": "^6.19.3",
+    "https-proxy-agent": "^9.1.0",
+    "next": "^15.5.29",
+    "nostr-tools": "^2.26.1",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "ws": "^8.23.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@types/ws": "^8.18.2",
+    "dotenv": "^18.0.10",
+    "prisma": "^6.19.3",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3",
+    "vitest": "^5.1.1"
+  }
+}
