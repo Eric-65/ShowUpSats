@@ -53,9 +53,11 @@ The `DEMO_MODE=1` fallback is only for when the faucet is down. It simulates pay
 
 ### Production (Vercel + Postgres)
 
-1. Set `provider = "postgresql"` in `prisma/schema.prisma` and set `DATABASE_URL` to Neon or Vercel Postgres.
-2. Set every variable from `.env.example` in Vercel. Generate `ENCRYPTION_KEY` with `openssl rand -base64 32`, and set `CRON_SECRET`.
-3. `vercel.json` runs the expiry sweep every 5 minutes. The sweep also runs on every status poll and every dashboard load.
+1. On vercel.com/new, import this GitHub repo. Leave the build command as is: `vercel.json` runs `pnpm vercel-build`.
+2. In the project, go to **Storage → Create → Neon (Postgres)** and connect it. That sets `DATABASE_URL`.
+3. Under **Settings → Environment Variables**, paste every variable from `.env.example`. Generate `ENCRYPTION_KEY` with `openssl rand -base64 32` and `APP_NOSTR_NSEC` with any nsec generator, and set `SEED_DASHBOARD_KEY` to a private value.
+4. Redeploy. `scripts/prisma-schema.mjs` switches Prisma to `postgresql` whenever `DATABASE_URL` is a postgres URL. The build runs `prisma db push` and seeds the demo provider only if the database is empty.
+5. The cron job sweeps expired holds once a day, the Hobby-plan limit. Holds are also swept on every status poll and every dashboard load, so the 10-minute window doesn't depend on cron.
 
 ## Architecture
 
