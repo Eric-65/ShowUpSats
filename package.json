@@ -3,16 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "NODE_USE_ENV_PROXY=1 NODE_NO_WARNINGS=1 next dev",
     "build": "prisma generate && next build",
     "start": "next start",
-    "db:push": "prisma db push",
+    "db:push": "prisma db push --skip-generate && prisma generate",
     "seed": "tsx prisma/seed.ts",
     "hold-test": "tsx scripts/hold-test.ts",
     "test": "vitest run",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "postinstall": "prisma generate",
+    "e2e": "NODE_USE_ENV_PROXY=1 tsx scripts/e2e-flow.ts"
   },
   "dependencies": {
+    "@getalby/bitcoin-connect": "^3.12.3",
     "@getalby/lightning-tools": "^10.0.0",
     "@getalby/sdk": "^9.0.0",
     "@prisma/client": "^6.19.3",
@@ -34,5 +37,8 @@
     "tsx": "^4.23.15",
     "typescript": "^5.9.3",
     "vitest": "^5.1.1"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }

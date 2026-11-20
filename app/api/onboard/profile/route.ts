@@ -6,6 +6,7 @@ import { policyHash, randomToken, sha256Hex } from "@/lib/server/crypto";
 import { setSession } from "@/lib/server/auth";
 import { rateLimit } from "@/lib/server/ratelimit";
 import { clientIp, readJson } from "@/lib/server/request";
+import { generateDefaultSlots } from "@/lib/server/slots";
 
 export async function POST(req: Request) {
   try {
@@ -22,6 +23,7 @@ export async function POST(req: Request) {
         services: { create: d.services },
       },
     });
+    await generateDefaultSlots(p.id);
     await setSession(p.id);
     return NextResponse.json({ ok: true, slug: p.slug, dashboardKey: key });
   } catch (e) { return handle(e); }
