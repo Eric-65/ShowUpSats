@@ -3,6 +3,9 @@ import { useCallback, useEffect, useState } from "react";
 import { t, type Dict } from "@/lib/i18n";
 import { StatusChip } from "@/components/StatusChip";
 import { Countdown } from "@/components/Countdown";
+import { AnimatePresence, motion } from "framer-motion";
+
+const TZ = process.env.NEXT_PUBLIC_DISPLAY_TZ || "Africa/Lagos";
 
 type Row = {
   id: string; status: string; service: string; slotStart: string; depositSats: number; depositFiat: number; acceptDeadline: string; hashTail: string;
@@ -34,15 +37,16 @@ export function Dashboard({ initial, d, lang, currency, windowMin }: { initial: 
   }
 
   const fmtFiat = (n: number) => { try { return new Intl.NumberFormat(lang === "fr" ? "fr-FR" : "en-GB", { style: "currency", currency, maximumFractionDigits: 0 }).format(n); } catch { return `${n} ${currency}`; } };
-  const fmtWhen = (iso: string) => new Date(iso).toLocaleString(lang === "fr" ? "fr-FR" : "en-GB", { weekday: "short", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
+  const fmtWhen = (iso: string) => new Date(iso).toLocaleString(lang === "fr" ? "fr-FR" : "en-GB", { timeZone: TZ, weekday: "short", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
 
   if (!rows.length) return <p>{d.noBookings}</p>;
   return (
     <ol className="dash__list">
+      <AnimatePresence initial={false}>
       {rows.map((b, i) => {
         const started = Date.now() > new Date(b.slotStart).getTime();
         return (
-          <li key={b.id} className={`dash__row dash__row--${b.status}`}>
+          <motion.li key={b.id} layout initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.35, ease: [0.2, 0.8, 0.2, 1] }} className={`dash__row dash__row--${b.status}`}>
             <span className="dash__idx mono">{String(i + 1).padStart(3, "0")}</span>
             <div className="dash__main">
               <StatusChip status={b.status} lang={lang} />
@@ -78,9 +82,10 @@ export function Dashboard({ initial, d, lang, currency, windowMin }: { initial: 
               </>}
               {b.refund && b.refund.status === "failed" && <button className="btn btn--outline" disabled={!!busy} onClick={() => act(b.id, "retry_refund")}>{d.retryRefund}</button>}
             </div>
-          </li>
+          </motion.li>
         );
       })}
+      </AnimatePresence>
     </ol>
   );
 }

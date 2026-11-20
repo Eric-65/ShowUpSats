@@ -1,0 +1,9 @@
+Photography
+-----------
+All 13 photos in /public/img were supplied by the project owner for this hackathon build.
+Each one was processed with scripts/process-images.ts (greyscale, crushed blacks, high contrast,
+vignette, film grain, WebP) to give the site one consistent dark editorial look.
+The originals are not committed.
+
+Before any public launch, confirm the licence of each source photo (e.g. Unsplash / Pexels / Pixabay
+licence), credit the photographers here, and make sure none shows a public figure.

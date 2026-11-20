@@ -129,7 +129,8 @@ Every API input is validated with zod (`lib/validation.ts`), including amount bo
 | Deposits protected per week | bookings × no-show rate × average deposit |
 | Refund success rate | `Refund.status = paid / all refunds` |
 | Booking-page weight | `/b/[slug]` first-load JS **106 kB** (`next build`), target ≤ 150 kB |
-| Lighthouse mobile | `/`: _TBD_ · `/b/[slug]`: _TBD_ (recorded after M10) |
+| Lighthouse mobile (local prod build) | `/`: **Perf 78** · A11y 100 · BP 96 (LCP 3.1 s, TBT 570 ms) · `/b/[slug]`: **Perf 98** · A11y 100 · BP 96 (LCP 2.1 s, 209 KB total transfer) |
+| 3D hero chunk | ≈ 242 KB gzipped, lazy-loaded only on `/` and only when the device can afford it |
 
 ## Judging criteria → where to see it
 
@@ -141,10 +142,32 @@ Every API input is validated with zod (`lib/validation.ts`), including amount bo
 | UX / low-bandwidth | `/b/[slug]` is server-rendered, 106 kB JS · EN/FR in `lib/i18n.ts` |
 | Impact | Problem/impact paragraphs above · video 2:25–3:00 |
 
+## Design system
+
+All tokens live in **`app/theme.css`**, so restyling happens in one file. The landing page adds only `app/landing.css`.
+
+| Token | Value | Use |
+|---|---|---|
+| `--ink` / `--ink-2` / `--ink-3` | `#0A0A0B` / `#141416` / `#2E2E2E` | Dark sections, raised cards, rules and secondary text on light |
+| `--paper` / `--paper-2` | `#F2F2F0` / `#E6E6E3` | Light sections and archive cards |
+| `--mute` | `#8D8B8C` | Secondary text, **on dark only** |
+| `--lime` | `#80FF28` | The single accent. Lime text appears on dark only; on light, lime is a fill with ink text on it |
+| `--danger` / `--danger-light` | `#FF4D3D` / `#B3261E` | No-show and error states, on dark and on light respectively |
+| Type | Inter Tight 800/900, uppercase, −0.035em, line-height 0.92 · JetBrains Mono for labels, sats, hashes and times | Self-hosted with `next/font` |
+| Shape | Radius 0–2px, 1px rules, 5px lime accent bars, 48px minimum tap targets | |
+
+**Recurring components:** a sticky blurred header with a lowercase wordmark and a white circle menu button; `// 00x` mono labels with a lime underline; a giant full-width display word in each section; lime-filled highlight links `▶▶`; status chips that always pair an icon with a word (`✓ ACCEPTED`, `● HELD` pulsing, `✕ EXPIRED`, `⚠ NO-SHOW`); an SVG countdown ring; a glitch/scan effect on photos (hero plus one other); a rotating *LOCKED · NOT SENT* badge; and a full-bleed lime CTA and footer with a tick strip.
+
+**Imagery:** every photo is baked into one dark, grainy, high-contrast monochrome treatment by `scripts/process-images.ts`. See `public/credits.txt`.
+
+**Motion:** framer-motion line reveals (staggered 50ms) and dashboard list transitions; GSAP ScrollTrigger scrubs and a pinned *how it works* section; Lenis smooth scrolling, on the landing page only; and a React Three Fiber padlock that turns, locks and then opens with a lime particle burst as you scroll. With `prefers-reduced-motion`, Save-Data, a 2g/3g connection, `deviceMemory ≤ 2` or no WebGL, the 3D scene is replaced by a static SVG lock and only fades remain.
+
+**Contrast (WCAG AA):** paper on ink 17.9, lime on ink 15.1, ink on lime 15.1, mute on ink 6.0, ink-3 on paper 12.1, danger on ink 5.9, danger-light on paper 5.6.
+
 ## Cut list status
 
-Will be updated at code freeze.
+Nothing on the cut list was cut. AI intake (the stretch goal) was not attempted.
 
 ## Credits
 
-Photos: see `public/credits.txt` (royalty-free, Unsplash/Pexels). The app name lives in one constant: `APP_NAME` in `lib/config.ts`.
+Photos: supplied by the project owner, with the dark treatment applied by `scripts/process-images.ts`. Licence status is in `public/credits.txt`. The app name lives in one constant: `APP_NAME` in `lib/config.ts`.

@@ -19,7 +19,7 @@ const lud16 = new URL(process.env.NWC_CLIENT_URI!.replace("nostr+walletconnect:/
   const inv = (await client.getAttribute('a[href^="lightning:"]', "href"))!.slice(10);
   await client.screenshot({ path: `${SHOTS}/2-pay.png`, fullPage: true });
   cli.payInvoice({ invoice: inv }).catch(() => {});
-  await client.waitForFunction(() => document.body.innerText.match(/Waiting for .* to accept/), null, { timeout: 30000 });
+  await client.waitForFunction(() => /waiting for .* to accept/i.test(document.body.innerText), null, { timeout: 30000 });
   await client.screenshot({ path: `${SHOTS}/3-held.png`, fullPage: true });
   console.log("held ✓");
   const prov = await b.newPage({ viewport: { width: 390, height: 844 } });
