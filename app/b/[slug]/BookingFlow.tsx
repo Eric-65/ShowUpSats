@@ -103,7 +103,7 @@ export function BookingFlow(props: {
                 </p>
                 <p className="pay__sats mono">{st.depositSats.toLocaleString()} sats</p>
                 {props.demo && <button type="button" className="btn" onClick={() => fetch(`/api/bookings/${booking.id}/demo-pay`, { method: "POST" })}>{d.simulatePay}</button>}
-                <p className="mono pay__waiting">{d.waitingPayment}</p>
+                <p className="mono pay__waiting typing">{d.waitingPayment}</p>
               </div>
             )}
           </>

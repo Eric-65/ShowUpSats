@@ -6,6 +6,8 @@ import { LandingClient } from "@/components/landing/LandingClient";
 import { RevealLines } from "@/components/landing/Reveal";
 import { GlitchImage } from "@/components/landing/Glitch";
 import { RotatingBadge } from "@/components/landing/RotatingBadge";
+import { Scramble } from "@/components/landing/Scramble";
+import { SplitChars, SplitWords, Marquee } from "@/components/SplitText";
 import "./landing.css";
 
 export const dynamic = "force-dynamic";
@@ -30,13 +32,17 @@ export default async function Home() {
 
       {/* HERO */}
       <section className="hero section--dark">
-        <p className="label mono hero__idx">// 001 · Booking deposits for one-person businesses</p>
-        <RevealLines as="h1" className="display hero__title" lines={["Locked.", "Not sent.", <span key="s" className="hl">Show up.</span>]} />
+        <p className="label mono hero__idx"><Scramble text="// 001 · Booking deposits for one-person businesses" /></p>
+        <h1 className="display hero__title">
+          <span className="line"><SplitChars text="Locked." /></span>
+          <span className="line"><SplitChars text="Not sent." delayMs={220} /></span>
+          <span className="line hl hl--flicker"><SplitChars text="Show up." delayMs={480} /></span>
+        </h1>
         <div className="hero__grid">
           <HeroVisual />
           <GlitchImage src="/img/portrait-suit.webp" alt="A barber in a dark suit, in shadow" className="hero__photo" priority />
         </div>
-        <p className="lede hero__lede">
+        <p className="lede hero__lede" data-inview>
           A booking link where the client&apos;s deposit is <span className="hl">locked, not sent</span>, until you accept. Miss the window and they <span className="hl">keep their sats</span>.
         </p>
         <div className="hero__cta">
@@ -46,23 +52,25 @@ export default async function Home() {
         </div>
       </section>
 
+      <Marquee className="marquee--lime" items={["Locked, not sent", "Accept in 10 minutes", "Or the client keeps their sats", "Signed receipts", "Check-in codes", "Show-up records"]} />
+
       {/* PROBLEM */}
       <section className="problem section--light">
-        <p className="label mono">// 002 · The empty chair</p>
-        <div className="giant-wrap"><p className="giant" data-giant="-6">Saturday, 9:00</p></div>
+        <p className="label mono"><Scramble text="// 002 · The empty chair" /></p>
+        <div className="giant-wrap"><p className="giant" data-giant="-6" data-giant-chars><SplitChars text="Saturday, 9:00" /></p></div>
         <div className="problem__grid">
           <div className="photo problem__photo"><img src="/img/hands-sm.webp" srcSet="/img/hands-sm.webp 700w, /img/hands.webp 1400w" sizes="(min-width: 900px) 50vw, 100vw" alt="Shadows of hands pressed against a sheet" loading="lazy" /></div>
           <div className="problem__copy accent-bar">
             <RevealLines as="h2" className="display" lines={["The chair", "stays empty."]} />
             <p>A braider blocks four hours for a client who never comes. That&apos;s a day&apos;s rent, gone. She asks for a deposit next time, and the client says no: <strong>why send money to a stranger who might cancel on me?</strong></p>
-            <p>Both sides are right. Neither has a way to trust the other. {APP_NAME} fixes the deposit, not the people.</p>
+            <p className="scrub-p"><SplitWords>{`Both sides are right. Neither has a way to trust the other. ${APP_NAME} fixes the deposit, not the people.`}</SplitWords></p>
           </div>
         </div>
       </section>
 
       {/* HOW IT WORKS */}
       <section id="how" className="steps section--dark">
-        <p className="label mono">// 003 · How it works</p>
+        <p className="label mono"><Scramble text="// 003 · How it works" /></p>
         <div className="steps__bar" aria-hidden />
         <ol className="steps__grid">
           {STEPS.map((s) => (
@@ -82,11 +90,11 @@ export default async function Home() {
 
       {/* LOCKED NOT SENT */}
       <section className="locked section--dark">
-        <p className="label mono">// 004 · Locked, not sent</p>
+        <p className="label mono"><Scramble text="// 004 · Locked, not sent" /></p>
         <div className="locked__grid">
           <GlitchImage src="/img/coin.webp" alt="A coin dissolving into particles" className="locked__photo" />
           <div>
-            <p className="lede locked__lede">
+            <p className="lede locked__lede" data-inview>
               A hold invoice is a payment that <span className="hl">waits</span>. The sats leave nobody&apos;s wallet until the provider says yes. <span className="hl">Yes</span> settles it. <span className="hl">No, or silence</span>, cancels it. The client never has to ask for money back.
             </p>
             <ul className="locked__list mono">
@@ -96,16 +104,16 @@ export default async function Home() {
             </ul>
           </div>
         </div>
-        <div className="giant-wrap"><p className="giant giant--outline" data-giant="8">Not sent.</p></div>
+        <div className="giant-wrap"><p className="giant giant--outline" data-giant="8" data-giant-chars><SplitChars text="Not sent." /></p></div>
       </section>
 
       {/* SHOW-UP RECORD */}
       <section className="record-sec section--light">
-        <p className="label mono">// 005 · The show-up record</p>
+        <p className="label mono"><Scramble text="// 005 · The show-up record" /></p>
         <div className="record-sec__grid">
           <div>
             <RevealLines as="h2" className="display" lines={["Trust you", "can read."]} />
-            <p>Every booking page carries a public record built from signed Nostr events. Clients see it before they pay. Providers see a client&apos;s past bookings before they accept.</p>
+            <p className="scrub-p"><SplitWords>{"Every booking page carries a public record built from signed Nostr events. Clients see it before they pay. Providers see a client's past bookings before they accept."}</SplitWords></p>
             <div className="record-card accent-bar">
               <p className="mono">{demo?.displayName ?? "Demo Braids"} · live from the demo</p>
               <p className="record-card__stats">
@@ -123,9 +131,11 @@ export default async function Home() {
         </div>
       </section>
 
+      <Marquee className="marquee--dark marquee--reverse" items={["ShowUpSats can't spend your money", "Receive-only connection", "Refunds capped by your budget", "No names · No phone numbers"]} />
+
       {/* SECURITY */}
       <section id="security" className="security section--dark">
-        <p className="label mono">// 006 · Security</p>
+        <p className="label mono"><Scramble text="// 006 · Security" /></p>
         <div className="security__grid">
           <div className="photo security__photo"><img src="/img/mask-sm.webp" srcSet="/img/mask-sm.webp 700w, /img/mask.webp 1400w" sizes="(min-width: 900px) 40vw, 100vw" alt="A hooded figure lowering a white mask" loading="lazy" /></div>
           <div>
@@ -143,8 +153,8 @@ export default async function Home() {
 
       {/* CTA */}
       <section className="cta section--lime">
-        <p className="label mono">// 007 · Start</p>
-        <h2 className="giant cta__giant" data-giant="-4">Show up.</h2>
+        <p className="label mono"><Scramble text="// 007 · Start" /></p>
+        <h2 className="giant cta__giant" data-giant="-4" data-giant-chars><SplitChars text="Show up." /></h2>
         <p className="lede">Your booking link in five minutes. Your wallet, your sats, your rules.</p>
         <a className="btn" href="/onboard">Create your booking link ▶▶</a>
         <div className="cta__strip" aria-hidden>
@@ -155,7 +165,7 @@ export default async function Home() {
       {/* FOOTER */}
       <footer className="footer section--lime">
         <div className="ticks" aria-hidden />
-        <p className="giant footer__giant">{APP_WORDMARK}</p>
+        <p className="giant footer__giant footer__giant--wave"><SplitChars text={APP_WORDMARK} step={60} /></p>
         <div className="footer__row mono">
           <span>© 2026 {APP_NAME} · Dakar Bitcoin Hack</span>
           <span>TEST WALLETS · NOT REAL MONEY</span>

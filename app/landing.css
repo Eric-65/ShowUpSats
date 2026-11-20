@@ -95,3 +95,39 @@
 .footer { padding: 0 var(--gutter) var(--space-5); border-top: 2px solid var(--ink); }
 .footer__giant { font-size: clamp(48px, 16.5vw, 300px); margin: var(--space-4) 0 var(--space-3); white-space: nowrap; }
 .footer__row { display: flex; flex-wrap: wrap; gap: var(--space-3); justify-content: space-between; padding-bottom: 72px; }
+
+/* ---------- landing text animation ---------- */
+.hero__title .line { display: block; }
+/* "SHOW UP." neon flicker after it lands */
+.hl--flicker { animation: flicker 4.5s 1.6s infinite; }
+@keyframes flicker {
+  0%, 18%, 22%, 25%, 53%, 57%, 100% { opacity: 1; text-shadow: 0 0 18px rgba(128,255,40,.45); }
+  20%, 24%, 55% { opacity: .35; text-shadow: none; }
+}
+/* highlight sweep: underline bar grows under lime phrases when the paragraph enters view */
+[data-inview] .hl { background: linear-gradient(var(--lime), var(--lime)) 0 100% / 0% 3px no-repeat; transition: background-size .9s var(--ease); padding-bottom: 2px; }
+[data-inview].in-view .hl { background-size: 100% 3px; }
+[data-inview].in-view .hl:nth-of-type(2) { transition-delay: .25s; }
+[data-inview].in-view .hl:nth-of-type(3) { transition-delay: .5s; }
+/* giant words: chars are animated by GSAP on scroll, not on load */
+[data-giant-chars] .ch { animation: none; }
+/* footer wordmark: letters jump on hover */
+.footer__giant--wave .ch { animation: none; transition: transform .35s cubic-bezier(.2, 1.8, .4, 1), color .2s; }
+.footer__giant--wave .ch:hover { transform: translateY(-0.18em) rotate(-4deg); color: var(--paper); -webkit-text-stroke: 2px var(--ink); }
+/* scroll-scrubbed words */
+.scrub-p { font-size: clamp(18px, 2vw, 24px); font-weight: 700; line-height: 1.35; }
+/* marquee ticker */
+.marquee { overflow: hidden; border-block: 1px solid var(--ink); padding: 14px 0; white-space: nowrap; }
+.marquee--lime { background: var(--lime); color: var(--lime-ink); }
+.marquee--dark { background: var(--ink); color: var(--paper); border-color: var(--ink-3); }
+.marquee__track { display: inline-flex; animation: marquee 28s linear infinite; }
+.marquee--reverse .marquee__track { animation-direction: reverse; }
+.marquee:hover .marquee__track { animation-play-state: paused; }
+.marquee__item { font-weight: 900; text-transform: uppercase; letter-spacing: -0.02em; font-size: clamp(22px, 3.4vw, 44px); }
+.marquee__sep { display: inline-block; margin: 0 .6em; font-size: .6em; vertical-align: middle; animation: spin 6s linear infinite; }
+.marquee--dark .marquee__sep { color: var(--lime); }
+@keyframes marquee { to { transform: translateX(-50%); } }
+/* steps: big index numbers count in */
+.steps__title { transition: color .3s; }
+.steps__item:hover .steps__title { color: var(--lime); }
+@media (prefers-reduced-motion: reduce) { .hl--flicker, .marquee__track, .marquee__sep { animation: none; } }

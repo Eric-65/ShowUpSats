@@ -9,8 +9,10 @@ export function LandingClient() {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
   useEffect(() => {
+    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in-view"); io.unobserve(e.target); } }), { threshold: 0.5 });
+    document.querySelectorAll("[data-inview]").forEach((el) => io.observe(el));
     const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) return;
+    if (reduce) return () => io.disconnect();
     let cleanup = () => {};
     (async () => {
       const [{ default: Lenis }, { gsap }, { ScrollTrigger }] = await Promise.all([import("lenis"), import("gsap"), import("gsap/ScrollTrigger")]);
@@ -31,11 +33,29 @@ export function LandingClient() {
         steps.forEach((s, i) => { if (i) tl.fromTo(s, { opacity: 0.15, y: 40 }, { opacity: 1, y: 0, duration: 1 }); });
         tl.fromTo(".steps__bar", { scaleX: 0 }, { scaleX: 1, ease: "none", duration: steps.length }, 0);
       });
+      // giant words: letters rise and un-skew as they scroll into view (scrubbed)
+      gsap.utils.toArray<HTMLElement>("[data-giant-chars]").forEach((el) => {
+        gsap.fromTo(el.querySelectorAll(".ch"), { yPercent: 70, rotate: 8, opacity: 0 }, {
+          yPercent: 0, rotate: 0, opacity: 1, stagger: 0.04, ease: "power3.out",
+          scrollTrigger: { trigger: el, start: "top 95%", end: "top 45%", scrub: 0.8 },
+        });
+      });
+      // paragraphs: words light up one by one as you scroll
+      gsap.utils.toArray<HTMLElement>("[data-scrub-words]").forEach((el) => {
+        gsap.fromTo(el.querySelectorAll(".w"), { opacity: 0.12 }, {
+          opacity: 1, stagger: 0.08, ease: "none",
+          scrollTrigger: { trigger: el, start: "top 85%", end: "bottom 55%", scrub: true },
+        });
+      });
+      // steps titles: chars typed in sequence when pinned section starts
+      gsap.utils.toArray<HTMLElement>(".steps__title").forEach((el, i) => {
+        gsap.fromTo(el, { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 0.9, delay: i * 0.12, ease: "power2.out", scrollTrigger: { trigger: ".steps", start: "top 70%" } });
+      });
       // header becomes translucent once scrolled
       const hdr = document.querySelector(".site-header--landing");
       const onScroll = () => hdr?.classList.toggle("is-scrolled", window.scrollY > 40);
       window.addEventListener("scroll", onScroll, { passive: true });
-      cleanup = () => { window.removeEventListener("scroll", onScroll); gsap.ticker.remove(raf); lenis.destroy(); ScrollTrigger.getAll().forEach((t) => t.kill()); mm.revert(); };
+      cleanup = () => { io.disconnect(); window.removeEventListener("scroll", onScroll); gsap.ticker.remove(raf); lenis.destroy(); ScrollTrigger.getAll().forEach((t) => t.kill()); mm.revert(); };
     })();
     return () => cleanup();
   }, []);

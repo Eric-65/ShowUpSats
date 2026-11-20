@@ -10,6 +10,7 @@ import { BookingFlow } from "./BookingFlow";
 import { APP_WORDMARK, ACCEPT_WINDOW_MINUTES, DEMO_MODE } from "@/lib/config";
 import { fiat, day, time } from "@/lib/format";
 import { t } from "@/lib/i18n";
+import { SplitChars } from "@/components/SplitText";
 
 export const dynamic = "force-dynamic";
 
@@ -40,7 +41,7 @@ export default async function BookingPage({ params }: { params: Promise<{ slug: 
       <main className="booking">
         <section className="booking__hero section--dark" style={{ ["--hero-img" as string]: "url(/img/laugh-sm.webp)" }}>
           <p className="label mono">// {provider.slug}</p>
-          <h1 className="booking__name display reveal">{provider.displayName}</h1>
+          <h1 className="booking__name display"><SplitChars text={provider.displayName} step={45} /></h1>
           <ShowUpRecord r={record} d={d} lang={lang} />
         </section>
         {!provider.nwcReceiveEnc && !DEMO_MODE ? (
