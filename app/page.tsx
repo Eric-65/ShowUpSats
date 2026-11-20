@@ -134,8 +134,8 @@ export default async function Home() {
             </div>
           </div>
           <div className="record-sec__photos">
-            <div className="photo"><img src="/img/portrait-turn-sm.webp" alt="A woman looking back over her shoulder" loading="lazy" /></div>
-            <div className="photo"><img src="/img/kite-sm.webp" alt="Two silhouettes flying a kite at sunset" loading="lazy" /></div>
+            <div className="photo rec--lg" data-speed="-5"><img src="/img/portrait-turn-sm.webp" alt="A woman looking back over her shoulder" loading="lazy" /></div>
+            <div className="photo rec--sm" data-speed="10"><img src="/img/kite-sm.webp" alt="Two silhouettes flying a kite at sunset" loading="lazy" /></div>
           </div>
         </div>
       </section>
@@ -167,7 +167,9 @@ export default async function Home() {
         <p className="lede">Your booking link in five minutes. Your wallet, your sats, your rules.</p>
         <a className="btn" href="/onboard">Create your booking link ▶▶</a>
         <div className="cta__strip" aria-hidden>
-          {["city", "roots", "rose", "butterfly"].map((n) => <div key={n} className="photo"><img src={`/img/${n}-sm.webp`} alt="" loading="lazy" /></div>)}
+          {[["city", "tall", "6"], ["roots", "wide", "-8"], ["rose", "small", "12"], ["butterfly", "mid", "-4"]].map(([n, size, speed]) => (
+            <div key={n} className={`photo strip--${size}`} data-speed={speed}><img src={`/img/${n}-sm.webp`} alt="" loading="lazy" /></div>
+          ))}
         </div>
       </section>
 

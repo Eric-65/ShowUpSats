@@ -89,9 +89,11 @@
 .record-card { background: var(--paper-2); padding: var(--space-4); margin-top: var(--space-4); }
 .record-card__stats { display: flex; flex-wrap: wrap; gap: 6px 18px; font-weight: 800; text-transform: uppercase; font-size: clamp(16px, 2vw, 22px); letter-spacing: -0.01em; }
 .record-card__note { color: var(--ink-3); }
-.record-sec__photos { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2); }
-.record-sec__photos .photo { aspect-ratio: 3 / 4; }
-.record-sec__photos .photo:last-child { margin-top: var(--space-6); }
+/* show-up record photos: big portrait + small offset square */
+.record-sec__photos { display: grid; grid-template-columns: repeat(6, 1fr); gap: var(--space-3); align-items: start; }
+.rec--lg { grid-column: 1 / span 4; aspect-ratio: 3 / 4; }
+.rec--sm { grid-column: 5 / span 2; aspect-ratio: 1 / 1; margin-top: 55%; }
+.rec--sm img { object-position: 30% 60%; }
 @media (min-width: 900px) { .record-sec__grid { grid-template-columns: 1.1fr 1fr; align-items: center; } }
 
 /* security */
@@ -109,10 +111,25 @@
 .cta .lede { margin-bottom: var(--space-4); }
 .cta .btn { background: var(--ink); color: var(--paper); }
 .cta .btn:hover { background: var(--paper); color: var(--ink); }
-.cta__strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-2); margin-top: var(--space-6); }
-.cta__strip .photo { aspect-ratio: 1; }
+/* CTA photo strip: four different sizes, staggered */
+.cta__strip { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--space-2); margin-top: var(--space-6); align-items: start; }
+.strip--tall { grid-column: 1 / span 5; aspect-ratio: 3 / 4; }
+.strip--wide { grid-column: 6 / span 7; aspect-ratio: 16 / 10; }
+.strip--small { grid-column: 6 / span 3; aspect-ratio: 1 / 1; margin-top: calc(var(--space-2) * -1 - 18%); }
+.strip--mid { grid-column: 9 / span 4; aspect-ratio: 4 / 3; margin-top: var(--space-2); }
+.strip--wide img { object-position: 20% 30%; }
+@media (min-width: 900px) {
+  .cta__strip { gap: var(--space-3); }
+  .strip--tall { grid-column: 1 / span 3; }
+  .strip--wide { grid-column: 4 / span 5; margin-top: var(--space-6); }
+  .strip--small { grid-column: 9 / span 2; margin-top: 0; }
+  .strip--mid { grid-column: 9 / span 4; margin-top: calc(var(--space-6) * -1); grid-row: 2; }
+}
 .footer { padding: 0 var(--gutter) var(--space-5); border-top: 2px solid var(--ink); }
-.footer__giant { font-size: clamp(48px, 16.5vw, 300px); margin: var(--space-4) 0 var(--space-3); white-space: nowrap; }
+.footer { container-type: inline-size; }
+/* wordmark measures 6.76em wide: size it so it exactly fills the footer's content width */
+.footer__giant { font-size: calc((100vw - 2 * var(--gutter) - 20px) / 6.95); margin: var(--space-4) 0 var(--space-3); white-space: nowrap; }
+@supports (font-size: 1cqi) { .footer__giant { font-size: calc(100cqi / 6.9); } }
 .footer__row { display: flex; flex-wrap: wrap; gap: var(--space-3); justify-content: space-between; padding-bottom: 72px; }
 
 /* ---------- landing text animation ---------- */
