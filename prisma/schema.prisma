@@ -1,0 +1,154 @@
+// SQLite locally. For production Postgres, set provider = "postgresql" (see README).
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Provider {
+  id                String    @id @default(cuid())
+  displayName       String
+  slug              String    @unique
+  currency          String
+  language          String    @default("en")
+  nwcReceiveEnc     String?
+  nwcRefundEnc      String?
+  dashboardKeyHash  String
+  policyText        String
+  policyHash        String
+  cancelNoticeHours Int       @default(24)
+  createdAt         DateTime  @default(now())
+  services          Service[]
+  slots             Slot[]
+  bookings          Booking[]
+}
+
+model Service {
+  id          String    @id @default(cuid())
+  providerId  String
+  provider    Provider  @relation(fields: [providerId], references: [id])
+  name        String
+  durationMin Int
+  priceFiat   Float
+  depositFiat Float
+  bookings    Booking[]
+}
+
+model Slot {
+  id         String    @id @default(cuid())
+  providerId String
+  provider   Provider  @relation(fields: [providerId], references: [id])
+  startsAt   DateTime
+  endsAt     DateTime
+  status     String    @default("open") // open | held | booked
+  bookings   Booking[]
+
+  @@unique([providerId, startsAt])
+  @@index([providerId, status])
+}
+
+model Booking {
+  id                   String    @id @default(cuid())
+  providerId           String
+  provider             Provider  @relation(fields: [providerId], references: [id])
+  serviceId            String
+  service              Service   @relation(fields: [serviceId], references: [id])
+  slotId               String
+  slot                 Slot      @relation(fields: [slotId], references: [id])
+  clientLnAddress      String
+  clientIdHash         String
+  clientIpHash         String?
+  depositSats          Int
+  depositFiat          Float
+  paymentHash          String    @unique
+  preimageEnc          String
+  invoice              String
+  status               String    @default("pending_payment")
+  checkInCodeHash      String?
+  checkInCodeEnc       String?
+  checkInCodeExpiresAt DateTime?
+  checkInAttempts      Int       @default(0)
+  checkInLockedUntil   DateTime?
+  acceptDeadline       DateTime
+  acceptedAt           DateTime?
+  receiptEventId       String?
+  receiptEventJson     String?
+  clientToken          String
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+  refunds              Refund[]
+  reports              Report[]
+  audit                AuditLog[]
+
+  @@index([providerId, status])
+  @@index([clientIdHash, status])
+}
+
+model Refund {
+  id          String   @id @default(cuid())
+  bookingId   String   @unique // at most one refund per booking
+  booking     Booking  @relation(fields: [bookingId], references: [id])
+  sats        Int
+  reason      String
+  paymentHash String?
+  invoice     String?
+  status      String   @default("pending") // pending | paying | paid | failed
+  error       String?
+  attempts    Int      @default(0)
+  createdAt   DateTime @default(now())
+}
+
+model Report {
+  id               String    @id @default(cuid())
+  bookingId        String
+  booking          Booking   @relation(fields: [bookingId], references: [id])
+  type             String    // client_no_show | provider_absent
+  filedBy          String    // client | provider
+  note             String?
+  outcome          String?   // refunded | disputed | unresolved | kept
+  deadline         DateTime?
+  nostrEventId     String?
+  nostrEventJson   String?
+  resolvedAt       DateTime?
+  createdAt        DateTime  @default(now())
+
+  @@unique([bookingId, type])
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  bookingId String?
+  booking   Booking? @relation(fields: [bookingId], references: [id])
+  action    String
+  at        DateTime @default(now())
+}
+
+model RateLimit {
+  key       String   @id
+  count     Int
+  resetAt   DateTime
+}
+
+model FxCache {
+  currency  String   @id
+  btcPrice  Float // fiat units per BTC
+  fetchedAt DateTime
+}
+
+/// Public, signed show-up record entries (one per outcome).
+model RecordEvent {
+  id         String   @id @default(cuid())
+  providerId String
+  bookingId  String
+  type       String   // completed | client_no_show | refunded_cancellation | provider_absent | disputed
+  outcome    String
+  at         DateTime @default(now())
+  eventId    String?
+  eventJson  String?
+
+  @@unique([bookingId, type])
+  @@index([providerId])
+}

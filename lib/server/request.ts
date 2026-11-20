@@ -1,0 +1,8 @@
+import { headers } from "next/headers";
+export async function clientIp() {
+  const h = await headers();
+  return (h.get("x-forwarded-for")?.split(",")[0] || h.get("x-real-ip") || "local").trim();
+}
+export async function readJson(req: Request) {
+  try { return await req.json(); } catch { return {}; }
+}

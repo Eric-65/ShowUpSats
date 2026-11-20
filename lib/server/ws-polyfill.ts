@@ -13,6 +13,7 @@ if (proxy && !g.__susWsPatched) {
   class ProxiedWS extends WS {
     constructor(url: string | URL, protocols?: string | string[]) {
       super(url, protocols, { agent });
+      this.on("error", () => {}); // never crash the process on relay errors
     }
   }
   g.WebSocket = ProxiedWS;
