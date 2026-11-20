@@ -150,3 +150,13 @@
 .steps__title { transition: color .3s; }
 .steps__item:hover .steps__title { color: var(--lime); }
 @media (prefers-reduced-motion: reduce) { .hl--flicker, .marquee__track, .marquee__sep { animation: none; } }
+
+/* masked line reveal (RevealLines) */
+.reveal-lines .rl { display: block; overflow: hidden; padding-bottom: .04em; }
+.reveal-lines .rl__in { display: block; }
+.anim-ready .reveal-lines:not(.in-view) .rl__in { transform: translateY(105%); }
+.anim-ready .reveal-lines .rl__in { transition: transform .8s var(--ease) calc(var(--i) * 55ms); }
+@media (prefers-reduced-motion: reduce) {
+  .anim-ready .reveal-lines:not(.in-view) .rl__in { transform: none; opacity: 0; }
+  .anim-ready .reveal-lines .rl__in { transition: opacity .4s; }
+}

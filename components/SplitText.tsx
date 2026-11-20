@@ -6,12 +6,14 @@ export function SplitChars({ text, className, delayMs = 0, step = 35 }: { text: 
   return (
     <span className={`split-chars ${className ?? ""}`} aria-label={text} role="text">
       {text.split(" ").map((word, wi, arr) => (
-        <span key={wi} className="split-word" aria-hidden>
-          {[...word].map((ch) => (
-            <span key={i} className="ch" style={{ ["--i" as string]: i++, ["--d" as string]: `${delayMs}ms`, ["--step" as string]: `${step}ms` }}>{ch}</span>
-          ))}
-          {wi < arr.length - 1 ? " " : ""}
-        </span>
+        <React.Fragment key={wi}>
+          <span className="split-word" aria-hidden>
+            {[...word].map((ch) => (
+              <span key={i} className="ch" style={{ ["--i" as string]: i++, ["--d" as string]: `${delayMs}ms`, ["--step" as string]: `${step}ms` }}>{ch}</span>
+            ))}
+          </span>
+          {wi < arr.length - 1 ? " " : null}
+        </React.Fragment>
       ))}
     </span>
   );
