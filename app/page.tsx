@@ -21,7 +21,7 @@ const STEPS = [
 
 export default async function Home() {
   const demo = await db.provider.findUnique({ where: { slug: "demo-braids" }, select: { id: true, displayName: true } }).catch(() => null);
-  const rec = demo ? await providerRecord(demo.id) : { completed: 42, refunded: 3, unresolved: 1, disputed: 0, events: [] };
+  const rec = demo ? await providerRecord(demo.id).catch(() => null) : null;
 
   return (
     <div className="landing">
@@ -124,10 +124,10 @@ export default async function Home() {
             <RevealLines as="h2" className="display" lines={["Trust you", "can read."]} />
             <p className="scrub-p"><SplitWords>{"Every booking page carries a public record built from signed Nostr events. Clients see it before they pay. Providers see a client's past bookings before they accept."}</SplitWords></p>
             <div className="record-card accent-bar">
-              <p className="mono">{demo?.displayName ?? "Demo Braids"} · live from the demo</p>
+              <p className="mono">{rec ? `${demo?.displayName} · live from the demo` : "Example record · live data loads once the demo is set up"}</p>
               <p className="record-card__stats">
-                <span>✓ {rec.completed} completed</span><span>↩ {rec.refunded} refunded</span>
-                <span>⚠ {rec.unresolved} unresolved no-show</span><span>⚖ {rec.disputed} disputed</span>
+                <span>✓ {rec?.completed ?? "—"} completed</span><span>↩ {rec?.refunded ?? "—"} refunded</span>
+                <span>⚠ {rec?.unresolved ?? "—"} unresolved no-show</span><span>⚖ {rec?.disputed ?? "—"} disputed</span>
               </p>
               <p className="mono record-card__note">Records are signed by {APP_NAME}. They show what each side reported, not a court ruling.</p>
               <a className="hl-link" href="/b/demo-braids">Open the record ▶▶</a>
