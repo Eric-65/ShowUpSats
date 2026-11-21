@@ -15,7 +15,7 @@ if (!key) missing.push("ENCRYPTION_KEY");
 else if (Buffer.from(key, "base64").length !== 32) fail("ENCRYPTION_KEY must be 32 bytes in base64 (make one with: openssl rand -base64 32).");
 if (!(process.env.APP_NOSTR_NSEC || "").startsWith("nsec1")) missing.push("APP_NOSTR_NSEC (must start with nsec1)");
 const { urlVar, pg } = writeSchema();
-if (!pg) fail(`No Postgres database found. Looked for: ${URL_CANDIDATES.join(", ")}.\n  Fix: Vercel project → Storage → Create Database → Neon → Connect to this project (all environments), then Redeploy.`);
+if (!pg) fail(`No Postgres database found. Looked for ${URL_CANDIDATES.join(", ")} and any variable holding a postgres:// URL in the Production environment.\n  Fix: Vercel project → Storage → Create Database → Neon → Connect to this project with Production ticked, then Redeploy without build cache.`);
 if (missing.length) fail(`Missing environment variables: ${missing.join(", ")}.\n  Fix: Vercel project → Settings → Environment Variables → add them for Production → Redeploy.`);
 log(`✓ env ok (database from ${urlVar})`);
 

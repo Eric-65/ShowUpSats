@@ -8,9 +8,13 @@ const DIRECT_CANDIDATES = ["DATABASE_URL_UNPOOLED", "POSTGRES_URL_NON_POOLING", 
 const isPg = (v) => /^postgres(ql)?:\/\//.test(v || "");
 
 export function resolveDb(env = process.env) {
-  const urlVar = URL_CANDIDATES.find((k) => env[k]) || "DATABASE_URL";
+  let urlVar = URL_CANDIDATES.find((k) => isPg(env[k]));
+  // Neon/Vercel "custom prefix" installs (e.g. STORAGE_URL, MYDB_PRISMA_URL): scan every variable for a postgres URL
+  const anyPg = Object.keys(env).filter((k) => isPg(env[k])).sort();
+  if (!urlVar) urlVar = anyPg.find((k) => /PRISMA/.test(k)) || anyPg.find((k) => !/UNPOOLED|NON_POOLING|NO_SSL/.test(k)) || anyPg[0];
+  if (!urlVar) urlVar = URL_CANDIDATES.find((k) => env[k]) || "DATABASE_URL";
   const pg = isPg(env[urlVar]);
-  const directVar = pg ? DIRECT_CANDIDATES.find((k) => isPg(env[k]) && k !== urlVar) : undefined;
+  const directVar = pg ? [...DIRECT_CANDIDATES, ...anyPg.filter((k) => /UNPOOLED|NON_POOLING/.test(k))].find((k) => isPg(env[k]) && k !== urlVar) : undefined;
   return { urlVar, pg, directVar };
 }
 
