@@ -15,7 +15,7 @@
     "e2e": "NODE_USE_ENV_PROXY=1 tsx scripts/e2e-flow.ts",
     "wallets": "NODE_USE_ENV_PROXY=1 NODE_NO_WARNINGS=1 tsx scripts/faucet.ts",
     "prisma:schema": "node scripts/prisma-schema.mjs",
-    "vercel-build": "node scripts/prisma-schema.mjs && prisma generate --schema prisma/schema.generated.prisma && prisma db push --skip-generate --schema prisma/schema.generated.prisma && tsx prisma/seed-if-empty.ts && next build"
+    "vercel-build": "node scripts/vercel-build.mjs"
   },
   "dependencies": {
     "@getalby/bitcoin-connect": "^3.12.3",
