@@ -11,7 +11,7 @@
 ---
 
 ## Contents
-- **For everyone:** [The problem](#-the-problem) · [What ShowUpSats does](#-what-showupsats-does) · [How it works](#-how-it-works) · [Screenshots](#-screenshots)
+- **For everyone:** [The problem](#-the-problem) · [What ShowUpSats does](#what-showupsats-does) · [How it works](#-how-it-works) · [Screenshots](#-screenshots)
 - **For judges:** [Try it in 3 minutes](#-judges-try-it-in-3-minutes) · [What to look for](#what-to-look-for) · [Judging criteria map](#judging-criteria--where-to-see-it)
 - **For providers:** [Create your booking link](#-providers-create-your-booking-link)
 - **For developers:** [Run it locally](#-run-it-locally) · [Deploy](#deploy-to-vercel--neon) · [Under the hood](#-under-the-hood)
@@ -21,7 +21,7 @@
 ## 🪑 The problem
 An empty chair on a Saturday morning is a day's rent gone. One-person service businesses lose a large share of their income to no-shows. A deposit should fix it, but clients won't pay one: *why send money to a stranger who might cancel on me?* Both sides are right, and neither has a way to trust the other.
 
-## ⚡ What ShowUpSats does
+## What ShowUpSats does
 ShowUpSats fixes the deposit, not the people.
 
 - **Locked, not sent.** The deposit is a Lightning **hold invoice**. The client's sats are locked in their own payment, and nothing moves until the provider says yes.
@@ -90,7 +90,7 @@ Client picks a slot ─▶ pays hold invoice ─▶ 🔒 LOCKED, NOT SENT (10-mi
 | Nostr | `lib/server/nostr.ts`; `app/r/[id]/ReceiptVerify.tsx` (in-browser verification) |
 | UX / low bandwidth | `/b/[slug]` server-rendered, 106 kB JS, Lighthouse 98; EN/FR in `lib/i18n.ts` |
 | Design | [Design system](#design-system); `app/theme.css` |
-| Impact | [What ShowUpSats does](#-what-showupsats-does) |
+| Impact | [What ShowUpSats does](#what-showupsats-does) |
 
 ---
 
