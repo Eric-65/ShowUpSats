@@ -67,7 +67,7 @@ async function composite(name: string, keys: string[], title: string, sub: strin
   await c.waitForFunction(() => /waiting for .* to accept/i.test(document.body.innerText), null, { timeout: 30000 }); await sleep(1500);
   await snapPhone(c, "held");
   // provider dashboard (desktop + phone)
-  const pd = await b.newPage({ viewport: { width: 1500, height: 1000 }, deviceScaleFactor: 2 });
+  const pd = await b.newPage({ viewport: { width: 1500, height: 1000 }, deviceScaleFactor: 2, extraHTTPHeaders: { "x-forwarded-host": "show-up-sats.vercel.app", "x-forwarded-proto": "https" } });
   await pd.goto(`${BASE}/login`);
   await pd.fill('input[autocomplete="username"]', "demo-braids");
   await pd.fill('input[type="password"]', "demo-braids-dashboard-key-0001");
