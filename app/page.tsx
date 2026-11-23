@@ -12,29 +12,6 @@ import "./landing.css";
 
 export const dynamic = "force-dynamic";
 
-const STEPS: { k: string; t: string; lines: string[]; link: { href: string; label: string } }[] = [
-  { k: "STEP — 01", t: "Book", lines: [
-    "Pick a service.",
-    "Pick a time.",
-    "Add your Lightning address. Refunds go here.",
-    "Tick “I agree” to the cancellation policy.",
-  ], link: { href: "/b/demo-braids", label: "Open the demo booking page" } },
-  { k: "STEP — 02", t: "Pay the deposit", lines: [
-    "Pay a small deposit from any Lightning wallet.",
-    "Your sats are LOCKED, NOT SENT.",
-    `A ${ACCEPT_WINDOW_MINUTES}-minute countdown starts.`,
-  ], link: { href: "https://faucet.nwc.dev", label: "Get a free test wallet" } },
-  { k: "STEP — 03", t: "Provider accepts", lines: [
-    "✓ Accept: the sats go to the provider.",
-    `✕ No answer in ${ACCEPT_WINDOW_MINUTES} min: cancelled. You keep your sats.`,
-  ], link: { href: "/login", label: "Provider dashboard" } },
-  { k: "STEP — 04", t: "Show up", lines: [
-    "You get a signed receipt and a 6-digit code.",
-    "Show the code when you arrive.",
-    "✓ Checked in. Done.",
-  ], link: { href: "/b/demo-braids", label: "See the show-up record" } },
-];
-
 export default async function Home() {
   const demo = await db.provider.findUnique({ where: { slug: "demo-braids" }, select: { id: true, displayName: true } }).catch(() => null);
   const rec = demo ? await providerRecord(demo.id).catch(() => null) : null;
@@ -85,40 +62,14 @@ export default async function Home() {
       </section>
 
       {/* HOW IT WORKS */}
-      <section id="how" className="steps section--dark">
+      <section id="how" className="how-teaser section--dark">
         <p className="label mono label--glow"><Scramble text="// 003 · How it works" /></p>
-        <div className="steps__bar" aria-hidden />
-        <ol className="steps__grid">
-          {STEPS.map((s) => (
-            <li key={s.k} className="steps__item">
-              <p className="label mono">{s.k}</p>
-              <h3 className="steps__title">{s.t}</h3>
-              <ul className="steps__lines">
-                {s.lines.map((l) => <li key={l} className={/^[✓✕]/.test(l) ? "is-mark" : undefined}>{l}</li>)}
-              </ul>
-              {s.link.href.startsWith("http")
-                ? <a className="steps__link" href={s.link.href} target="_blank" rel="noopener noreferrer">{s.link.label} ↗</a>
-                : <a className="steps__link" href={s.link.href}>{s.link.label} ▶▶</a>}
-            </li>
-          ))}
-        </ol>
-        <nav className="steps__try" aria-label="Get started">
-          <div>
-            <p className="mono steps__who">// I&apos;m booking</p>
-            <a className="hl-link" href="/b/demo-braids">Try the demo booking page ▶▶</a>
-            <a className="steps__link" href="https://faucet.nwc.dev" target="_blank" rel="noopener noreferrer">Free test wallet ↗</a>
-          </div>
-          <div>
-            <p className="mono steps__who">// I&apos;m a provider</p>
-            <a className="hl-link" href="/onboard">Create my booking link ▶▶</a>
-            <a className="steps__link" href="/login">Provider log in ▶▶</a>
-          </div>
-          <div>
-            <p className="mono steps__who">// Learn more</p>
-            <a className="steps__link" href="#security">How your money stays safe ▶▶</a>
-            <a className="steps__link" href="https://github.com/eric-65/showupsats#readme" target="_blank" rel="noopener noreferrer">Full guide on GitHub ↗</a>
-          </div>
-        </nav>
+        <h2 className="display how-teaser__title">Book <span className="hl">→</span> Pay <span className="hl">→</span> Accept <span className="hl">→</span> Show up</h2>
+        <p className="how-teaser__copy">Four simple steps. Your deposit stays locked until the provider says yes. If they don&apos;t, you keep your sats.</p>
+        <p className="how-teaser__cta">
+          <a className="btn btn--lime" href="/how-it-works">See how it works ▶▶</a>
+          <a className="btn btn--outline" href="/b/demo-braids">Try the demo</a>
+        </p>
         <div className="steps__photos">
           <figure className="gal gal--lg" data-speed="-6">
             <div className="photo"><img src="/img/veil.webp" srcSet="/img/veil-sm.webp 700w, /img/veil.webp 1400w" sizes="(min-width: 900px) 42vw, 100vw" alt="Eyes above a dark scarf" loading="lazy" /></div>

@@ -29,7 +29,7 @@ export function LandingClient() {
       // pinned "how it works" steps: scrubbed timeline
       const steps = gsap.utils.toArray<HTMLElement>(".steps__item");
       const mm = gsap.matchMedia();
-      mm.add("(min-width: 900px)", () => {
+      if (steps.length) mm.add("(min-width: 900px)", () => {
         const tl = gsap.timeline({ scrollTrigger: { trigger: ".steps", start: "top top", end: `+=${steps.length * 60}%`, scrub: 0.6, pin: true } });
         steps.forEach((s, i) => { if (i) tl.fromTo(s, { opacity: 0.15, y: 40 }, { opacity: 1, y: 0, duration: 1 }); });
         tl.fromTo(".steps__bar", { scaleX: 0 }, { scaleX: 1, ease: "none", duration: steps.length }, 0);
@@ -75,7 +75,7 @@ export function LandingClient() {
         {open && (
           <motion.nav className="menu-panel" aria-label="Menu" initial={{ clipPath: "circle(0% at 95% 4%)" }} animate={{ clipPath: "circle(150% at 95% 4%)" }} exit={{ clipPath: "circle(0% at 95% 4%)" }} transition={{ duration: 0.6, ease: [0.2, 0.8, 0.2, 1] }}>
             <button className="menu-dot menu-close" aria-label="Close menu" onClick={() => setOpen(false)} style={{ background: "var(--ink)" }}><span style={{ background: "var(--lime)", boxShadow: "none", transform: "rotate(45deg)" }} /></button>
-            {[["/onboard", "Create your link"], ["/b/demo-braids", "Demo booking page"], ["/login", "Provider log in"], ["#how", "How it works"], ["#security", "Security"]].map(([href, label], i) => (
+            {[["/onboard", "Create your link"], ["/b/demo-braids", "Demo booking page"], ["/login", "Provider log in"], ["/how-it-works", "How it works"], ["#security", "Security"]].map(([href, label], i) => (
               <motion.a key={href} href={href} onClick={() => setOpen(false)} initial={{ y: 40, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.15 + i * 0.05 }}>{label}</motion.a>
             ))}
           </motion.nav>

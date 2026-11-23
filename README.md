@@ -4,7 +4,7 @@
 
 **Booking links for barbers, braiders, nail techs and tutors, where the client's Lightning deposit is _locked, not sent_.** The provider accepts within 10 minutes and the sats land in their own wallet. If they decline or don't answer, the deposit is cancelled and the client keeps their sats.
 
-**[▶ Live app](https://show-up-sats.vercel.app/)** · **[▶ Try a booking page](https://show-up-sats.vercel.app/b/demo-braids)** · [Judges: 3-minute test](#-judges-try-it-in-3-minutes) · [Run it locally](#-run-it-locally) · Built for **Dakar Bitcoin Hack 2026**
+**[▶ Live app](https://show-up-sats.vercel.app/)** · **[▶ How it works](https://show-up-sats.vercel.app/how-it-works)** · **[▶ Try a booking page](https://show-up-sats.vercel.app/b/demo-braids)** · [Judges: 3-minute test](#-judges-try-it-in-3-minutes) · [Run it locally](#-run-it-locally) · Built for **Dakar Bitcoin Hack 2026**
 
 > ⚠️ The live app uses **test wallets only**. The banner reads *TEST WALLETS · NOT REAL MONEY*.
 

@@ -205,3 +205,13 @@
 }
 .steps__bar { box-shadow: 0 0 14px rgba(128,255,40,.7), 0 0 34px rgba(128,255,40,.3); }
 @media (prefers-reduced-motion: reduce) { .label--glow { animation: none; } }
+
+/* landing "How it works" teaser (full steps live on /how-it-works) */
+.how-teaser__title { font-size: clamp(34px, 7vw, 96px); max-width: 16ch; }
+.how-teaser__title .hl { display: inline-block; text-shadow: 0 0 18px rgba(128,255,40,.6); }
+.how-teaser__copy { max-width: 46ch; font-size: clamp(16px, 1.6vw, 20px); color: var(--paper); }
+.how-teaser__cta { display: flex; flex-wrap: wrap; gap: 12px; margin: var(--space-4) 0 0; }
+/* /how-it-works page */
+.how-page .steps { min-height: auto; padding: var(--space-6) var(--gutter) var(--space-7); }
+.how-page__title { font-size: clamp(40px, 9vw, 120px); margin-bottom: var(--space-4); }
+.how-page__home { min-height: 44px; padding: 8px 16px; }
