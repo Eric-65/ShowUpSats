@@ -1,5 +1,6 @@
 "use client";
 import { useCallback, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { t, type Dict } from "@/lib/i18n";
 import { StatusChip } from "@/components/StatusChip";
 import { Countdown } from "@/components/Countdown";
@@ -14,6 +15,7 @@ type Row = {
 };
 
 export function Dashboard({ initial, d, lang, currency, windowMin }: { initial: Row[]; d: Dict; lang: "en" | "fr"; currency: string; windowMin: number }) {
+  const router = useRouter();
   const [rows, setRows] = useState(initial);
   const [busy, setBusy] = useState<string | null>(null);
   const [msg, setMsg] = useState<Record<string, string>>({});
@@ -31,7 +33,10 @@ export function Dashboard({ initial, d, lang, currency, windowMin }: { initial: 
       const r = await fetch(`/api/bookings/${id}/action`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ action, ...extra }) });
       const j = await r.json();
       if (!r.ok) setMsg((m) => ({ ...m, [id]: j.error ?? d.errorGeneric }));
-      else if (action === "accept") navigator.vibrate?.(30);
+      else {
+        if (action === "accept") navigator.vibrate?.(30);
+        router.refresh(); // re-render the server parts too (show-up record counts)
+      }
       await load();
     } catch { setMsg((m) => ({ ...m, [id]: d.errorNetwork })); } finally { setBusy(null); }
   }
