@@ -12,11 +12,27 @@ import "./landing.css";
 
 export const dynamic = "force-dynamic";
 
-const STEPS = [
-  { k: "STEP — 01", t: "Share your link", d: "Pick your services, deposit and cancellation policy. Paste two wallet connections. Send the link on WhatsApp." },
-  { k: "STEP — 02", t: "Client locks a deposit", d: "They pick a slot and pay a small Lightning deposit. It's a hold invoice: locked in their payment, not sent." },
-  { k: "STEP — 03", t: `Accept in ${ACCEPT_WINDOW_MINUTES} minutes`, d: "Tap Accept and the sats land in your own wallet. Decline or miss it, and the hold cancels itself." },
-  { k: "STEP — 04", t: "Check-in proves the show-up", d: "The client shows a 6-digit code when they arrive. Both sides keep a Nostr-signed receipt." },
+const STEPS: { k: string; t: string; lines: string[] }[] = [
+  { k: "STEP — 01", t: "Book", lines: [
+    "Pick a service.",
+    "Pick a time.",
+    "Add your Lightning address. Refunds go here.",
+    "Tick “I agree” to the cancellation policy.",
+  ] },
+  { k: "STEP — 02", t: "Pay the deposit", lines: [
+    "Pay a small deposit from any Lightning wallet.",
+    "Your sats are LOCKED, NOT SENT.",
+    `A ${ACCEPT_WINDOW_MINUTES}-minute countdown starts.`,
+  ] },
+  { k: "STEP — 03", t: "Provider accepts", lines: [
+    "✓ Accept: the sats go to the provider.",
+    `✕ No answer in ${ACCEPT_WINDOW_MINUTES} min: cancelled. You keep your sats.`,
+  ] },
+  { k: "STEP — 04", t: "Show up", lines: [
+    "You get a signed receipt and a 6-digit code.",
+    "Show the code when you arrive.",
+    "✓ Checked in. Done.",
+  ] },
 ];
 
 export default async function Home() {
@@ -77,10 +93,13 @@ export default async function Home() {
             <li key={s.k} className="steps__item">
               <p className="label mono">{s.k}</p>
               <h3 className="steps__title">{s.t}</h3>
-              <p>{s.d}</p>
+              <ul className="steps__lines">
+                {s.lines.map((l) => <li key={l} className={/^[✓✕]/.test(l) ? "is-mark" : undefined}>{l}</li>)}
+              </ul>
             </li>
           ))}
         </ol>
+        <p className="steps__try"><a className="hl-link" href="/b/demo-braids">Try it on the demo booking page ▶▶</a></p>
         <div className="steps__photos">
           <figure className="gal gal--lg" data-speed="-6">
             <div className="photo"><img src="/img/veil.webp" srcSet="/img/veil-sm.webp 700w, /img/veil.webp 1400w" sizes="(min-width: 900px) 42vw, 100vw" alt="Eyes above a dark scarf" loading="lazy" /></div>

@@ -177,3 +177,11 @@
   .anim-ready .reveal-lines:not(.in-view) .rl__in { transform: none; opacity: 0; }
   .anim-ready .reveal-lines .rl__in { transition: opacity .4s; }
 }
+
+/* "How it works": short, scannable bullet steps */
+.steps__lines { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+.steps__lines li { position: relative; padding-left: 20px; color: var(--paper); font-size: 16px; line-height: 1.4; }
+.steps__lines li::before { content: "▸"; position: absolute; left: 0; top: 0; color: var(--lime); }
+.steps__try { margin: var(--space-5) 0 0; }
+.steps__lines li.is-mark { padding-left: 0; }
+.steps__lines li.is-mark::before { content: none; }
