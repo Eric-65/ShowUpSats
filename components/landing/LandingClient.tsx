@@ -75,7 +75,7 @@ export function LandingClient() {
         {open && (
           <motion.nav className="menu-panel" aria-label="Menu" initial={{ clipPath: "circle(0% at 95% 4%)" }} animate={{ clipPath: "circle(150% at 95% 4%)" }} exit={{ clipPath: "circle(0% at 95% 4%)" }} transition={{ duration: 0.6, ease: [0.2, 0.8, 0.2, 1] }}>
             <button className="menu-dot menu-close" aria-label="Close menu" onClick={() => setOpen(false)} style={{ background: "var(--ink)" }}><span style={{ background: "var(--lime)", boxShadow: "none", transform: "rotate(45deg)" }} /></button>
-            {[["/onboard", "Create your link"], ["/b/demo-braids", "Demo booking page"], ["/login", "Provider log in"], ["/how-it-works", "How it works"], ["#security", "Security"]].map(([href, label], i) => (
+            {[["/onboard", "Create your link"], ["/b/demo-braids", "Demo booking page"], ["/login", "Provider log in"], ["/how-it-works", "How it works"], ["/community", "Community"], ["/join", "Join / Sign in"], ["#security", "Security"]].map(([href, label], i) => (
               <motion.a key={href} href={href} onClick={() => setOpen(false)} initial={{ y: 40, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.15 + i * 0.05 }}>{label}</motion.a>
             ))}
           </motion.nav>

@@ -13,6 +13,7 @@
 ## Contents
 - **For everyone:** [The problem](#-the-problem) · [What ShowUpSats does](#what-showupsats-does) · [How it works](#-how-it-works) · [Screenshots](#-screenshots)
 - **For judges:** [Try it in 3 minutes](#-judges-try-it-in-3-minutes) · [What to look for](#what-to-look-for) · [Judging criteria map](#judging-criteria--where-to-see-it)
+- **Community:** [Join, invite friends, see real growth](#-community--invite-links)
 - **For providers:** [Create your booking link](#-providers-create-your-booking-link)
 - **For developers:** [Run it locally](#-run-it-locally) · [Deploy](#deploy-to-vercel--neon) · [Under the hood](#-under-the-hood)
 
@@ -93,6 +94,30 @@ Client picks a slot ─▶ pays hold invoice ─▶ 🔒 LOCKED, NOT SENT (10-mi
 | Impact | [What ShowUpSats does](#what-showupsats-does) |
 
 ---
+
+## 👥 Community & invite links
+- **[/join](https://show-up-sats.vercel.app/join):** sign in with Google. No password; we only receive your name, email and photo.
+- **[/me](https://show-up-sats.vercel.app/me):** your personal invite link (`/i/<CODE>`) with Copy and WhatsApp buttons, how many friends you invited, and how often your link was opened.
+- **[/community](https://show-up-sats.vercel.app/community):** live member count, new this week, joined via invite, a 14-day growth chart, top inviters and the member wall.
+
+**Privacy:**
+- Members appear on the wall only if they switch **"Show me in the community"** on. They see their first name, last initial and Google photo.
+- Emails are never shown.
+- Everyone counts toward the totals.
+
+**Fair invites:**
+- A referral is recorded once, when the new account is created.
+- Self-invites don't count.
+- Invite links are remembered for 30 days.
+
+The numbers are real: no seeded or fake members.
+
+**Setup (once):**
+1. In Google Cloud Console, go to *APIs & Services → OAuth consent screen* (External) → *Credentials → Create OAuth client ID → Web application*.
+2. Add the authorized redirect URI `https://show-up-sats.vercel.app/api/auth/google/callback`.
+3. Add `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` to Vercel and redeploy.
+
+Locally, set `ALLOW_DEV_LOGIN=1` and open `/api/auth/dev-login?name=Ada%20L` to test without Google. This route never works in production.
 
 ## 💈 Providers: create your booking link
 1. Open **[/onboard](https://show-up-sats.vercel.app/onboard)**. Enter your business name, link name, currency, language, free-cancellation notice and services. The cancellation policy is prefilled; edit it if you like.

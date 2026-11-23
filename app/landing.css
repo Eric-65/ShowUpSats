@@ -215,3 +215,9 @@
 .how-page .steps { min-height: auto; padding: var(--space-6) var(--gutter) var(--space-7); }
 .how-page__title { font-size: clamp(40px, 9vw, 120px); margin-bottom: var(--space-4); }
 .how-page__home { min-height: 44px; padding: 8px 16px; }
+
+/* community strip on the landing page */
+.community-strip__row { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-3); margin: var(--space-3) 0; }
+.community-strip__stat { display: flex; flex-direction: column; gap: 6px; border-top: 1px solid var(--ink-3); padding-top: var(--space-3); }
+.community-strip__stat .mono { color: var(--mute); text-transform: uppercase; letter-spacing: .12em; }
+.community-strip__n { font-size: clamp(44px, 10vw, 120px); font-weight: 900; letter-spacing: -0.04em; line-height: .9; color: var(--lime); text-shadow: 0 0 20px rgba(128,255,40,.45); }

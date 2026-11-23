@@ -12,7 +12,8 @@ export async function GET() {
   try {
     const providers = await db.provider.count();
     const demo = await db.provider.findUnique({ where: { slug: "demo-braids" }, select: { nwcReceiveEnc: true, nwcRefundEnc: true } });
-    database = { ok: true, providers, demoProvider: !!demo, demoWalletA: !!demo?.nwcReceiveEnc, demoWalletB: !!demo?.nwcRefundEnc };
+    const members = await db.member.count().catch(() => null);
+    database = { ok: true, providers, members, demoProvider: !!demo, demoWalletA: !!demo?.nwcReceiveEnc, demoWalletB: !!demo?.nwcRefundEnc };
   } catch (e) {
     const code = (e as { code?: string; errorCode?: string })?.code ?? (e as { errorCode?: string })?.errorCode ?? (e as Error)?.name;
     const hint = code === "P2021" ? "Tables are missing: redeploy so the build creates them." :
@@ -20,7 +21,7 @@ export async function GET() {
       dbVars.length === 0 ? "No database variable set: connect Neon in Vercel → Storage." : "See Vercel function logs.";
     database = { ok: false, code, hint };
   }
-  const env = Object.fromEntries(["ENCRYPTION_KEY", "APP_NOSTR_NSEC", "SEED_NWC_RECEIVE_URI", "SEED_NWC_REFUND_URI", "SEED_DASHBOARD_KEY", "CRON_SECRET", "ALLOW_TEST_FULL_ACCESS_NWC"].map((k) => [k, has(k)]));
+  const env = Object.fromEntries(["ENCRYPTION_KEY", "APP_NOSTR_NSEC", "SEED_NWC_RECEIVE_URI", "SEED_NWC_REFUND_URI", "SEED_DASHBOARD_KEY", "CRON_SECRET", "ALLOW_TEST_FULL_ACCESS_NWC", "GOOGLE_CLIENT_ID", "GOOGLE_CLIENT_SECRET", "APP_URL"].map((k) => [k, has(k)]));
   return NextResponse.json({ database, databaseVarsPresent: dbVars, env, demoMode: DEMO_MODE, commit: process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 7) ?? null },
     { headers: { "Cache-Control": "no-store" } });
 }

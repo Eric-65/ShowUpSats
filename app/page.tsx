@@ -8,6 +8,7 @@ import { GlitchImage } from "@/components/landing/Glitch";
 import { RotatingBadge } from "@/components/landing/RotatingBadge";
 import { Scramble } from "@/components/landing/Scramble";
 import { SplitChars, SplitWords, Marquee } from "@/components/SplitText";
+import { communityStats } from "@/lib/server/members";
 import "./landing.css";
 
 export const dynamic = "force-dynamic";
@@ -15,6 +16,7 @@ export const dynamic = "force-dynamic";
 export default async function Home() {
   const demo = await db.provider.findUnique({ where: { slug: "demo-braids" }, select: { id: true, displayName: true } }).catch(() => null);
   const rec = demo ? await providerRecord(demo.id).catch(() => null) : null;
+  const community = await communityStats().catch(() => null);
 
   return (
     <div className="landing">
@@ -130,6 +132,20 @@ export default async function Home() {
       </section>
 
       <Marquee className="marquee--dark marquee--reverse" items={["ShowUpSats can't spend your money", "Receive-only connection", "Refunds capped by your budget", "No names · No phone numbers"]} />
+
+      {/* COMMUNITY */}
+      <section className="community-strip section--dark" aria-label="Community">
+        <p className="label mono label--glow">// Community</p>
+        <div className="community-strip__row">
+          <div className="community-strip__stat"><span className="community-strip__n">{community?.total ?? 0}</span><span className="mono">members</span></div>
+          <div className="community-strip__stat"><span className="community-strip__n">+{community?.week ?? 0}</span><span className="mono">this week</span></div>
+          <div className="community-strip__stat"><span className="community-strip__n">{community?.viaInvite ?? 0}</span><span className="mono">via invites</span></div>
+        </div>
+        <p className="how-teaser__cta">
+          <a className="btn btn--lime" href="/join">Join with Google ▶▶</a>
+          <a className="btn btn--outline" href="/community">See the community</a>
+        </p>
+      </section>
 
       {/* SECURITY */}
       <section id="security" className="security section--dark">
