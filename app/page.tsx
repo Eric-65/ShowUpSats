@@ -9,12 +9,14 @@ import { RotatingBadge } from "@/components/landing/RotatingBadge";
 import { Scramble } from "@/components/landing/Scramble";
 import { SplitChars, SplitWords, Marquee } from "@/components/SplitText";
 import { communityStats } from "@/lib/server/members";
+import { featuredProvider } from "@/lib/server/featured";
 import "./landing.css";
 
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const demo = await db.provider.findUnique({ where: { slug: "demo-braids" }, select: { id: true, displayName: true } }).catch(() => null);
+  const demo = await featuredProvider();
+  const bookHref = `/b/${demo?.slug ?? "demo-braids"}`;
   const rec = demo ? await providerRecord(demo.id).catch(() => null) : null;
   const community = await communityStats().catch(() => null);
 
@@ -22,7 +24,7 @@ export default async function Home() {
     <div className="landing">
       <header className="site-header site-header--landing">
         <a className="wordmark" href="/">{APP_WORDMARK}</a>
-        <LandingClient />
+        <LandingClient bookHref={bookHref} />
       </header>
 
       {/* HERO */}
@@ -42,7 +44,7 @@ export default async function Home() {
         </p>
         <div className="hero__cta">
           <a className="btn btn--lime" href="/onboard">Create your booking link ▶▶</a>
-          <a className="btn btn--outline" href="/b/demo-braids">See a booking page</a>
+          <a className="btn btn--outline" href={bookHref}>See a booking page</a>
           <RotatingBadge />
         </div>
       </section>
@@ -70,7 +72,7 @@ export default async function Home() {
         <p className="how-teaser__copy">Four simple steps. Your deposit stays locked until the provider says yes. If they don&apos;t, you keep your sats.</p>
         <p className="how-teaser__cta">
           <a className="btn btn--lime" href="/how-it-works">See how it works ▶▶</a>
-          <a className="btn btn--outline" href="/b/demo-braids">Try the demo</a>
+          <a className="btn btn--outline" href={bookHref}>Try the demo</a>
         </p>
         <div className="steps__photos">
           <figure className="gal gal--lg" data-speed="-6">
@@ -115,13 +117,13 @@ export default async function Home() {
             <RevealLines as="h2" className="display" lines={["Trust you", "can read."]} />
             <p className="scrub-p"><SplitWords>{"Every booking page carries a public record built from signed Nostr events. Clients see it before they pay. Providers see a client's past bookings before they accept."}</SplitWords></p>
             <div className="record-card accent-bar">
-              <p className="mono">{rec ? `${demo?.displayName} · live from the demo` : "Example record · live data loads once the demo is set up"}</p>
+              <p className="mono">{rec ? `${demo?.displayName} · live record` : "Example record · live data loads once the demo is set up"}</p>
               <p className="record-card__stats">
                 <span>✓ {rec?.completed ?? "—"} completed</span><span>↩ {rec?.refunded ?? "—"} refunded</span>
                 <span>⚠ {rec?.unresolved ?? "—"} unresolved no-show</span><span>⚖ {rec?.disputed ?? "—"} disputed</span>
               </p>
               <p className="mono record-card__note">Records are signed by {APP_NAME}. They show what each side reported, not a court ruling.</p>
-              <a className="hl-link" href="/b/demo-braids">Open the record ▶▶</a>
+              <a className="hl-link" href={bookHref}>Open the record ▶▶</a>
             </div>
           </div>
           <div className="record-sec__photos">

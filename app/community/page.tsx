@@ -3,6 +3,7 @@ import { communityStats, currentMember } from "@/lib/server/members";
 import { CommunityHeader } from "@/components/community/SiteHeader";
 import { Avatar } from "@/components/community/Avatar";
 import { APP_NAME } from "@/lib/config";
+import { featuredHref } from "@/lib/server/featured";
 import "../community.css";
 
 export const dynamic = "force-dynamic";
@@ -11,7 +12,7 @@ export const metadata: Metadata = { title: `Community · ${APP_NAME}`, descripti
 const fmtDay = (iso: string) => new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "short" });
 
 export default async function CommunityPage() {
-  const [s, me] = await Promise.all([communityStats().catch(() => null), currentMember()]);
+  const [s, me, bookHref] = await Promise.all([communityStats().catch(() => null), currentMember(), featuredHref()]);
   const max = Math.max(1, ...(s?.days.map((d) => d.count) ?? [1]));
   return (
     <>
@@ -41,7 +42,7 @@ export default async function CommunityPage() {
 
             <div className="cta-row">
               {me ? <a className="btn btn--lime" href="/me">Invite friends ▶▶</a> : <a className="btn btn--lime" href="/join">Join the community ▶▶</a>}
-              <a className="btn btn--outline" href="/b/demo-braids">Try the demo booking</a>
+              <a className="btn btn--outline" href={bookHref}>Try a booking page</a>
             </div>
 
             <section aria-label="Top inviters">

@@ -20,3 +20,8 @@ export const NOSTR_RELAYS = (process.env.NOSTR_RELAYS || "wss://relay.damus.io,w
 export const NWC_TIMEOUT_MS = 15_000;
 export const MAX_HOLDS_PER_CLIENT = 3;
 export const MAX_HOLDS_PER_IP = 10;
+
+/** The booking page the site links to as its live example ("See a booking page", "Try the demo", …).
+ *  Change it here, or set FEATURED_SLUG on Vercel. Falls back to the seeded demo if that page doesn't exist. */
+export const FEATURED_SLUG = process.env.FEATURED_SLUG || "erics-hair-treatment";
+export const FALLBACK_SLUG = "demo-braids";

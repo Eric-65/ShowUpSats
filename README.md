@@ -4,7 +4,7 @@
 
 **Booking links for barbers, braiders, nail techs and tutors, where the client's Lightning deposit is _locked, not sent_.** The provider accepts within 10 minutes and the sats land in their own wallet. If they decline or don't answer, the deposit is cancelled and the client keeps their sats.
 
-**[▶ Live app](https://show-up-sats.vercel.app/)** · **[▶ How it works](https://show-up-sats.vercel.app/how-it-works)** · **[▶ Try a booking page](https://show-up-sats.vercel.app/b/demo-braids)** · [Judges: 3-minute test](#-judges-try-it-in-3-minutes) · [Run it locally](#-run-it-locally) · Built for **Dakar Bitcoin Hack 2026**
+**[▶ Live app](https://show-up-sats.vercel.app/)** · **[▶ How it works](https://show-up-sats.vercel.app/how-it-works)** · **[▶ Try a booking page](https://show-up-sats.vercel.app/b/erics-hair-treatment)** · [Judges: 3-minute test](#-judges-try-it-in-3-minutes) · [Run it locally](#-run-it-locally) · Built for **Dakar Bitcoin Hack 2026**
 
 > ⚠️ The live app uses **test wallets only**. The banner reads *TEST WALLETS · NOT REAL MONEY*.
 
@@ -63,7 +63,7 @@ Client picks a slot ─▶ pays hold invoice ─▶ 🔒 LOCKED, NOT SENT (10-mi
 **You need:** a phone or laptop browser, and a free test wallet with test sats (no real money).
 
 1. **Get a test wallet (30 seconds).** Open **[faucet.nwc.dev](https://faucet.nwc.dev)** and create a wallet. Copy the `nostr+walletconnect://…` string it gives you. It holds free test sats.
-2. **Open the booking page:** **[show-up-sats.vercel.app/b/demo-braids](https://show-up-sats.vercel.app/b/demo-braids)**. At the top is the provider's public **show-up record**. Tap *See signed record events* to see the signed Nostr events.
+2. **Open the booking page:** **[show-up-sats.vercel.app/b/erics-hair-treatment](https://show-up-sats.vercel.app/b/erics-hair-treatment)**. At the top is the provider's public **show-up record**. Tap *See signed record events* to see the signed Nostr events.
 3. **Book:**
    1. Pick a service and a time.
    2. Enter any Lightning address that can receive. This is where refunds would go; your faucet wallet's `…@getalby.com` address works.

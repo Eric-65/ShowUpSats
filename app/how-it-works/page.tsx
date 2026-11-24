@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { APP_NAME, APP_WORDMARK, ACCEPT_WINDOW_MINUTES } from "@/lib/config";
 import { Scramble } from "@/components/landing/Scramble";
+import { featuredHref } from "@/lib/server/featured";
 import "../landing.css";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: `How it works · ${APP_NAME}`,
@@ -14,7 +17,7 @@ const STEPS: { k: string; t: string; lines: string[]; link: { href: string; labe
     "Pick a time.",
     "Add your Lightning address. Refunds go here.",
     "Tick “I agree” to the cancellation policy.",
-  ], link: { href: "/b/demo-braids", label: "Open the demo booking page" } },
+  ], link: { href: "/b/demo-braids", label: "Open a live booking page" } },
   { k: "STEP — 02", t: "Pay the deposit", lines: [
     "Pay a small deposit from any Lightning wallet.",
     "Your sats are LOCKED, NOT SENT.",
@@ -31,7 +34,9 @@ const STEPS: { k: string; t: string; lines: string[]; link: { href: string; labe
   ], link: { href: "/b/demo-braids", label: "See the show-up record" } },
 ];
 
-export default function HowItWorksPage() {
+export default async function HowItWorksPage() {
+  const book = await featuredHref();
+  const steps = STEPS.map((s) => (s.link.href === "/b/demo-braids" ? { ...s, link: { ...s.link, href: book } } : s));
   return (
     <div className="landing how-page">
       <header className="site-header">
@@ -44,7 +49,7 @@ export default function HowItWorksPage() {
         <h1 className="display how-page__title">Four steps.<br /><span className="hl">Locked, not sent.</span></h1>
         <div className="steps__bar" aria-hidden />
         <ol className="steps__grid">
-          {STEPS.map((s) => (
+          {steps.map((s) => (
             <li key={s.k} className="steps__item">
               <p className="label mono">{s.k}</p>
               <h2 className="steps__title">{s.t}</h2>
@@ -61,7 +66,7 @@ export default function HowItWorksPage() {
         <nav className="steps__try" aria-label="Get started">
           <div>
             <p className="mono steps__who">// I&apos;m booking</p>
-            <a className="hl-link" href="/b/demo-braids">Try the demo booking page ▶▶</a>
+            <a className="hl-link" href={book}>Try a live booking page ▶▶</a>
             <a className="steps__link" href="https://faucet.nwc.dev" target="_blank" rel="noopener noreferrer">Free test wallet ↗</a>
           </div>
           <div>

@@ -8,6 +8,7 @@ import { Avatar } from "@/components/community/Avatar";
 import { InviteShare } from "@/components/community/InviteShare";
 import { VisibilityToggle } from "@/components/community/VisibilityToggle";
 import { APP_NAME } from "@/lib/config";
+import { featuredHref } from "@/lib/server/featured";
 import "../community.css";
 
 export const dynamic = "force-dynamic";
@@ -17,6 +18,7 @@ export default async function MePage({ searchParams }: { searchParams: Promise<{
   const me = await currentMember();
   if (!me) redirect("/join");
   const { welcome } = await searchParams;
+  const bookHref = await featuredHref();
   const base = process.env.APP_URL?.replace(/\/$/, "") || (await origin());
   const [refs, rank] = await Promise.all([
     db.member.findMany({ where: { referredById: me.id }, orderBy: { createdAt: "desc" }, take: 100, select: { id: true, name: true, avatarUrl: true, showInCommunity: true, createdAt: true } }),
@@ -62,7 +64,7 @@ export default async function MePage({ searchParams }: { searchParams: Promise<{
 
         <div className="cta-row">
           <a className="btn btn--outline" href="/community">View the community</a>
-          <a className="btn btn--outline" href="/b/demo-braids">Try the demo booking</a>
+          <a className="btn btn--outline" href={bookHref}>Try a booking page</a>
           <form action="/api/auth/member/logout" method="post"><button className="btn btn--outline">Sign out</button></form>
         </div>
       </main>
