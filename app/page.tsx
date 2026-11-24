@@ -185,6 +185,8 @@ export default async function Home() {
         <div className="footer__row mono">
           <span>© 2026 {APP_NAME} · Dakar Bitcoin Hack</span>
           <span>TEST WALLETS · NOT REAL MONEY</span>
+          <a href="/privacy">Privacy</a>
+          <a href="/terms">Terms</a>
           <a href="https://github.com/eric-65/showupsats">Source</a>
         </div>
       </footer>

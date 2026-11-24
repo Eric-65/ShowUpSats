@@ -50,7 +50,7 @@ export default async function JoinPage({ searchParams }: { searchParams: Promise
             : <p className="empty">Google sign-in is being set up. Check back soon.</p>}
           <a className="btn btn--outline" href="/community">See the community</a>
         </div>
-        <p className="wall__meta">We only get your name, email and photo from Google. Your email is never shown. You choose if your name and photo appear in the community.</p>
+        <p className="wall__meta">We only get your name, email and photo from Google. Your email is never shown. You choose if your name and photo appear in the community. By continuing you agree to our <a href="/terms">Terms</a> and <a href="/privacy">Privacy policy</a>.</p>
       </main>
     </>
   );
